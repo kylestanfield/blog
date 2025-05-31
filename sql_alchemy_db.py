@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
 from flask import g, Flask # current_app is implicitly used via 'app' argument
@@ -15,12 +15,12 @@ class SQLAlchemyDB:
     Class to manage the SQLAlchemy engine, session,
     and integrate with Flask.
     """
-    engine: create_engine
-    scoped_session: scoped_session # type: ignore
+    engine: Engine
+    current_scoped_session: scoped_session
 
-    def __init__(self, engine: create_engine, scoped_session_factory: scoped_session): # type: ignore
+    def __init__(self, engine: Engine, scoped_session_factory: scoped_session):
         self.engine = engine
-        self.scoped_session = scoped_session_factory
+        self.current_scoped_session = scoped_session_factory
 
     @classmethod
     def create_from_app(cls: Type['SQLAlchemyDB'], app: Flask) -> 'SQLAlchemyDB':
@@ -31,7 +31,7 @@ class SQLAlchemyDB:
         instance_path = app.instance_path
         os.makedirs(instance_path, exist_ok=True)
 
-        database_path = os.path.join(instance_path, 'blog.db')
+        database_path = os.path.join(instance_path, 'blog.sqlite')
         database_url = f"sqlite:///{database_path}"
 
         engine_instance = create_engine(
@@ -45,16 +45,16 @@ class SQLAlchemyDB:
         )
 
         SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine_instance)
-        scoped_session_instance = scoped_session(SessionLocal)
+        current_scoped_session = scoped_session(SessionLocal)
 
         # Create the SQLAlchemyDB instance with pre-initialized attributes
-        db_instance = cls(engine_instance, scoped_session_instance)
+        db_instance = cls(engine_instance, current_scoped_session)
 
         # Register callbacks with the Flask app instance
-        app.teardown_appcontext(db_instance.close_db)
+        app.teardown_appcontext(db_instance.close_database_session)
        
     
-        @click.command('build-tables')
+        @click.command('init-db')
         @flask.cli.with_appcontext
         def build_tables_command():
             """Clear existing data and create new tables."""
@@ -65,17 +65,17 @@ class SQLAlchemyDB:
 
         return db_instance
     
-    def get_db(self):
+    def get_database_session(self):
         """
         Returns the current SQLAlchemy session for the request.
         This session is managed by the connection pool and is unique to the current thread/request.
         """
         # Store the session in Flask's g object to be request-specific
         if 'db_session_instance' not in g:
-            g.db_session_instance = self.scoped_session()
+            g.db_session_instance = self.current_scoped_session
         return g.db_session_instance
 
-    def close_db(self, e=None):
+    def close_database_session(self, e=None):
         """
         Closes the current database session for the request and returns its connection
         to the pool. This function is registered as a Flask teardown callback.
@@ -85,7 +85,7 @@ class SQLAlchemyDB:
             db_session_to_close.close()
         # Crucial: Call remove() on the scoped_session to clean up the thread-local state
         # associated with the request, making it ready for the next request.
-        self.scoped_session.remove()
+        self.current_scoped_session.remove()
 
     def _run_build_tables(self):
         """Internal method to execute table creation."""

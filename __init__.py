@@ -5,10 +5,10 @@ import sqlite3
 from . import auth
 from flask import Flask, request, jsonify, current_app
 
-from .sql_alchemy_db import SQLAlchemyDB
+from .sql_alchemy_db import SQLAlchemyDB, Base
 
 sqlite3.register_converter(
-    "timestamp", lambda v: datetime.fromisoformat(v.decode())
+    "timestamp", lambda v: datetime.datetime.fromisoformat(v.decode())
 )
 
 def create_app(test_config=None):
@@ -16,8 +16,9 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-    )
+                SQLALCHEMY_DATABASE_URI=f"sqlite:///{os.path.join(app.instance_path, 'blog.sqlite')}",
+                        SQLALCHEMY_TRACK_MODIFICATIONS=False
+    )           
 
     if test_config is None:
         # We are not testing, load the instance config
@@ -32,14 +33,13 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    app.db_manager = SQLAlchemyDB.create_from_app(app)
+    app.extensions['db_manager'] = SQLAlchemyDB.create_from_app(app)
 
     app.register_blueprint(auth.bp)
     
-
     # a simple page that says hello
-    @app.route('/hello')
-    def hello():
+    @app.route('/')
+    def index():
         return 'Hello, world!'
     
     return app
