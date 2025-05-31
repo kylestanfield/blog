@@ -1,6 +1,15 @@
+import datetime
 import os
+import sqlite3
 
-from flask import Flask
+from flask import Flask, request, jsonify, current_app
+
+from sql_alchemy_db import SQLAlchemyDB
+
+
+sqlite3.register_converter(
+    "timestamp", lambda v: datetime.fromisoformat(v.decode())
+)
 
 def create_app(test_config=None):
     # create and configure flask app
@@ -22,6 +31,12 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    app.db_manager = SQLAlchemyDB.create_from_app(app)
+    
+    with current_app.open_resource('schema.sql') as f:
+        app.db_manager.executescript(f.read().decode('utf-8'))
+        
 
     # a simple page that says hello
     @app.route('/hello')
