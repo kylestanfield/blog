@@ -2,6 +2,7 @@ import datetime
 import os
 import sqlite3
 
+from . import auth
 from flask import Flask, request, jsonify, current_app
 
 from .sql_alchemy_db import SQLAlchemyDB
@@ -32,6 +33,8 @@ def create_app(test_config=None):
         pass
 
     app.db_manager = SQLAlchemyDB.create_from_app(app)
+
+    app.register_blueprint(auth.bp)
     
 
     # a simple page that says hello

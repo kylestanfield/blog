@@ -53,9 +53,7 @@ class SQLAlchemyDB:
         # Register callbacks with the Flask app instance
         app.teardown_appcontext(db_instance.close_db)
        
-       
-        # Optional: Define a simple CLI command to create tables
-        # You'd typically use a migration tool like Alembic for production
+    
         @click.command('build-tables')
         @flask.cli.with_appcontext
         def build_tables_command():
