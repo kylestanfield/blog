@@ -3,6 +3,7 @@ import os
 import sqlite3
 
 from . import auth
+from . import blog
 from flask import Flask, request, jsonify, current_app
 
 from .sql_alchemy_db import SQLAlchemyDB, Base
@@ -36,10 +37,7 @@ def create_app(test_config=None):
     app.extensions['db_manager'] = SQLAlchemyDB.create_from_app(app)
 
     app.register_blueprint(auth.bp)
-    
-    # a simple page that says hello
-    @app.route('/')
-    def index():
-        return 'Hello, world!'
+    app.register_blueprint(blog.bp)
+    app.add_url_rule('/', endpoint='index')
     
     return app
