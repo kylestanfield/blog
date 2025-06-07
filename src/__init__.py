@@ -14,7 +14,13 @@ sqlite3.register_converter(
 
 def create_app(test_config=None):
     # create and configure flask app
-    app = Flask(__name__, instance_relative_config=True)
+    package_root = os.path.abspath(os.path.dirname(__file__))
+    template_dir = os.path.join(package_root, '..', 'templates')
+    static_dir = os.path.join(package_root, '..', 'static')
+    app = Flask(__name__,
+                instance_relative_config=True,
+                template_folder=template_dir,
+                static_folder=static_dir)
     app.config.from_mapping(
         SECRET_KEY='dev',
                 SQLALCHEMY_DATABASE_URI=f"sqlite:///{os.path.join(app.instance_path, 'blog.sqlite')}",
