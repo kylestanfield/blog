@@ -1,134 +1,318 @@
-html {
-  font-family: sans-serif;
-  background: #eee;
-  padding: 1rem;
-}
+/*****************************************************************************/
+/*
+/* Common
+/*
+/*****************************************************************************/
 
-body {
-  max-width: 960px;
-  margin: 0 auto;
-  background: white;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: serif;
-  color: #377ba8;
-  margin: 1rem 0;
-}
-
-a {
-  color: #377ba8;
-}
-
-hr {
-  border: none;
-  border-top: 1px solid lightgray;
-}
-
-nav {
-  background: lightgray;
-  display: flex;
-  align-items: center;
-  padding: 0 0.5rem;
-}
-
-nav h1 {
-  flex: auto;
-  margin: 0;
-}
-
-nav h1 a {
-  text-decoration: none;
-  padding: 0.25rem 0.5rem;
-}
-
-nav ul  {
-  display: flex;
-  list-style: none;
+/* Global Reset */
+* {
   margin: 0;
   padding: 0;
 }
 
-nav ul li a, nav ul li span, header .action {
-  display: block;
-  padding: 0.5rem;
+html, body {
+  height: 100%;
 }
 
-.content {
-  padding: 0 1rem 1rem;
+body {
+  background-color: white;
+  font: 1.1em georgia, "times new roman", serif;
+  text-align: left;
+  hyphens: auto;
+  margin-left: 1em;
+  color: #333;
 }
 
-.content > header {
-  border-bottom: 1px solid lightgray;
-  display: flex;
-  align-items: flex-end;
+blockquote {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 2em;
+  padding-left: 1em;
+  border-left: 2px solid #ccc;
+  color: #555;
 }
 
-.content > header h1 {
-  flex: auto;
-  margin: 1rem 0 0.25rem 0;
-}
-
-.flash {
-  margin: 1em 0;
-  padding: 1em;
-  background: #cae6f6;
-  border: 1px solid #377ba8;
-}
-
-.post > header {
-  display: flex;
-  align-items: flex-end;
-  font-size: 0.85em;
-}
-
-.post > header > div:first-of-type {
-  flex: auto;
-}
-
-.post > header h1 {
-  font-size: 1.5em;
-  margin-bottom: 0;
-}
-
-.post .about {
-  color: slategray;
-  font-style: italic;
-}
-
-.post .body {
-  white-space: pre-line;
-}
-
-.content:last-child {
-  margin-bottom: 0;
-}
-
-.content form {
-  margin: 1em 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.content label {
+h1, h2, h3, h4, h5, h6 {
+  font-family: helvetica, arial, sans-serif;
   font-weight: bold;
+  color: #e4a066;
+}
+
+h1 {
+  font-size: 2em;
   margin-bottom: 0.5em;
 }
 
-.content input, .content textarea {
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.75em;
+}
+
+p {
+  margin-top: 1em;
+  margin-bottom: 0.25em;
+  line-height: 1.6em;
+}
+
+
+a {
+  color: #e4a066;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #c2763f;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #ad8246;
+}
+
+table {
+  font-size: inherit;
+  font: 100%;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+hr {
+  margin-bottom: 0.75em;
+  margin-top: 1.5em;
+  color: #3311113b;
+}
+
+/*****************************************************************************/
+/*
+/* Site Layout
+/*
+/*****************************************************************************/
+
+.site {
+  font-size: 100%;
+  width: 80em;
+  max-width: 95%;
+  margin: 3em auto 2em auto;
+  line-height: 1.6em;
+}
+
+.title {
+  color: #a00;
+  font-weight: bold;
+  margin-bottom: 5em;
+}
+
+.preview-body {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+.site .title a {
+  color: #00c09f;
+  font-size: 2em;
+  text-decoration: none;
+  text-shadow: 1px 1px 2px #BBBBBB;
+}
+
+.site .title a:hover {
+  color: #008800;
+}
+
+.site .about {
+  width: 20em;
+  float: right;
+  color: #555;
+  font-size: 0.9em;
+  padding-left: 2em;
+}
+
+.site .about h1 {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  margin-top: 1em;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3em;
+}
+
+/*****************************************************************************/
+/*
+/* Post and Page Content
+/*
+/*****************************************************************************/
+
+#post {
+  width: 50em;
+  float: left;
+}
+
+#post .meta {
+  color: #aaa;
+  font-style: italic;
+  margin-top: -1em;
+  font-size: 0.9em;
+  margin-bottom: 0.8em;
+}
+
+#post img {
+  max-width: 100%;
+  height: auto;
+  padding: 0.2em;
+  border: 1px solid #ddd;
+  display: block;
+  margin: 1em auto;
+}
+
+#post pre {
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  padding: 0.8em 1em;
+  overflow-x: auto;
+  font-size: 0.9em;
+}
+
+#post ul,
+#post ol {
+  margin-left: 1.35em;
+}
+
+#post code {
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  font-size: 85%;
+  padding: 0.1em 0.3em;
+  font-family: "courier new", monospace;
+}
+
+#post pre code {
+  border: none;
+  padding: 0;
+}
+
+/*****************************************************************************/
+/*
+/* Lists (Index Page, Related Posts)
+/*
+/*****************************************************************************/
+
+ul.posts {
+  list-style-type: none;
+  margin-bottom: 2em;
+}
+
+ul.posts li {
+  line-height: 2em;
+}
+
+ul.posts span {
+  color: #888;
+  font-family: monospace;
+  font-size: 0.9em;
+  padding-right: 1em;
+}
+
+#related {
+  margin-top: 3em;
+  clear: both;
+  width: 50em;
+  float: left;
+}
+
+#related h2 {
+    font-size: 1.5em;
   margin-bottom: 1em;
+  border-top: 4px solid #eee;
+  padding-top: 1em;
 }
 
-.content textarea {
-  min-height: 12em;
-  resize: vertical;
+
+/*****************************************************************************/
+/*
+/* Footer
+/*
+/*****************************************************************************/
+
+.site .footer {
+  font-size: 80%;
+  color: #555;
+  border-top: 4px solid #eee;
+  margin-top: 3em;
+  padding-top: 1.5em;
+  overflow: hidden;
+  clear: both;
 }
 
-input.danger {
-  color: #cc2f2e;
+.site .footer .contact {
+  float: left;
+  margin-right: 3em;
 }
 
-input[type=submit] {
-  align-self: start;
-  min-width: 10em;
+.site .footer .contact a {
+  color: #8085C1;
+}
+
+.site .footer .license {
+  margin-top: 1.1em;
+  float: right;
+  text-align: right;
+}
+
+.site .footer .license img {
+  border: 0;
+}
+
+
+/*****************************************************************************/
+/*
+/* Responsive Design
+/*
+/*****************************************************************************/
+
+@media only screen and (max-width: 900px) {
+  body {
+    margin-left: 0;
+    text-align: left;
+  }
+  .site {
+    display: flex;
+    flex-flow: column;
+    width: 95%;
+    margin: 1em auto;
+  }
+  .title {
+    margin-bottom: 1.5em;
+  }
+  #post {
+    order: 1; /* Content first */
+    width: 100%;
+    margin-top: 0;
+    float: none;
+  }
+  .site .about {
+    order: 2; /* About box after content */
+    float: none;
+    width: 100%;
+    padding-left: 0;
+    margin-top: 2em;
+  }
+  #related {
+    order: 3; /* Related posts after about */
+    width: 100%;
+    float: none;
+  }
+  .site .footer {
+    order: 4; /* Footer last */
+    float: none;
+  }
+  .site .footer .contact, .site .footer .license {
+      float: none;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 1em;
+  }
 }

@@ -1,29 +1,31 @@
 {% extends 'base.html' %}
 
-
-{% block header %}
-    <h1>{% block title %} Posts {% endblock %}</h1>
-    {% if g.user %}
-        <a class="action" href="{{ url_for('blog.create') }}">New</a>
-    {% endif %}
-{% endblock %}
+{% block title %}Kyle's Blog{% endblock %}
 
 {% block content %}
+    {# Loop through each post passed from the Flask route #}
     {% for post in posts %}
-        <article class="post">
-            <header>
-                <div>
-                    <h1>{{ post['title'] }}</h1>
-                    <div class="about">by {{ post['author'].username }} on {{ post['created_at'].strftime('%Y-%m-%d') }}</div>
-                </div>
-                {% if g.user['id'] == post['author_id'] %}
-                    <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
-                {% endif %}
-            </header>
-            <p class="body">{{ post['body'] }}</p>
-        </article>
-        {% if not loop.last %}
-            <hr>
-        {% endif %}
+        <div class="post-preview">
+            <h2><a href="{{ url_for('blog.view', id=post.id) }}">{{ post.title }}</a></h2>
+
+            <p class="meta">
+                {{ post.created_at.strftime('%B %d, %Y') }}
+            </p>
+            <div class="preview-body">
+                {{ post.body | striptags | truncate(100) }}
+            </div>
+
+            {# A link to read the full post #}
+            <p><a href="{{ url_for('blog.view', id=post.id) }}">Read More &raquo;</a></p>
+            {% if not loop.last %}
+                <hr class="post-separator">
+            {% endif %}
+        </div>
+    {% else %}
+        {# This message is shown if the 'posts' list is empty #}
+        <p>No posts have been published yet.</p>
     {% endfor %}
+{% endblock %}
+
+{% block related_posts %}
 {% endblock %}

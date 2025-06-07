@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}Kyle's Blog{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p class="meta">{{ post.created_at.strftime('%B %d, %Y') }}</p>
+
+    <div class="post-body">
+      {{ post.body | safe }}
+    </div>
+
+    {% if g.user and g.user.id == post.author_id %}
+      <div class="admin-actions">
+        <a href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
+        <form action="{{ url_for('blog.delete', id=post.id) }}" method="post" style="display:inline;">
+          <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this post?');">
+        </form>
+      </div>
+    {% endif %}
+{% endblock %}
+
+{% block related_posts %}
+    <h2>Other Posts</h2>
+    &laquo; <a href="{{ url_for('blog.index') }}">Back to the blog index</a><br>
+    <ul class="posts">
+        {% for recent in recent_posts %}
+            {% if recent.id != post.id %} {# Don't list the current post as a related post #}
+            <li><span>{{ recent.created_at.strftime('%d %b %Y') }}</span> &raquo; <a href="{{ url_for('blog.view', id=recent.id) }}">{{ recent.title }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

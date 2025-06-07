@@ -36,12 +36,8 @@ class SQLAlchemyDB:
 
         engine_instance = create_engine(
             database_url,
-            echo=False,  # Set to True to log SQL statements (useful for debugging)
+            echo=False,
             connect_args={"check_same_thread": False}, # Essential for SQLite with multiple threads
-            # Pooling options for fine-tuning (defaults are often sufficient for SQLite)
-            # pool_size=10,
-            # max_overflow=5,
-            # pool_recycle=3600 # Recycle connections after 1 hour to avoid stale ones
         )
 
         SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine_instance)
