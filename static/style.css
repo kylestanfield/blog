@@ -10,17 +10,22 @@
   padding: 0;
 }
 
-html, body {
+html {
   height: 100%;
 }
 
 body {
-  background-color: white;
-  font: 1.1em georgia, "times new roman", serif;
-  text-align: left;
-  hyphens: auto;
-  margin-left: 1em;
-  color: #333;
+    display: flex; /* Make body a flex container */
+    flex-direction: column; /* Stack children vertically */
+    min-height: 100vh; /* Ensure body takes at least 100% of viewport height */
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font: 1.1em georgia, "times new roman", serif;
+    text-align: left;
+    hyphens: auto;
+    color: #333;
+    text-indent: 0;
 }
 
 blockquote {
@@ -65,10 +70,6 @@ a:hover {
   text-decoration: underline;
 }
 
-a:visited {
-  color: #ad8246;
-}
-
 table {
   font-size: inherit;
   font: 100%;
@@ -97,14 +98,21 @@ hr {
   font-size: 100%;
   width: 80em;
   max-width: 95%;
-  margin: 3em auto 2em auto;
+  margin: 0 auto;
   line-height: 1.6em;
+  flex-grow: 1; /* This is the key: makes .site grow to fill available space */
+  padding: 3em 0 2em 0;
+}
+
+.clearfix::after {
+    content: ""; /* Required for pseudo-element */
+    display: table; /* Establishes a new block formatting context */
+    clear: both; /* Clears floats on both sides */
 }
 
 .title {
-  color: #a00;
   font-weight: bold;
-  margin-bottom: 5em;
+  margin-bottom: 4em;
 }
 
 .preview-body {
@@ -113,14 +121,14 @@ hr {
 }
 
 .site .title a {
-  color: #00c09f;
+  color: #0fd59de0;
   font-size: 2em;
   text-decoration: none;
   text-shadow: 1px 1px 2px #BBBBBB;
 }
 
 .site .title a:hover {
-  color: #008800;
+  color: #00b07f;
 }
 
 .site .about {
@@ -149,6 +157,17 @@ hr {
 #post {
   width: 50em;
   float: left;
+}
+
+.post-body {
+    white-space: pre-wrap;
+    text-indent: 0;
+    word-wrap: break-word;
+    font-size: 1.1em;
+    line-height: 1.6em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: #444;
 }
 
 #post .meta {
@@ -194,6 +213,68 @@ hr {
   padding: 0;
 }
 
+/********************************************/
+/* Post Creation/Editing Forms /
+/********************************************/
+
+form label {
+    display: block; /* Makes the label take up its own line */
+    margin-bottom: 8px; /* Adds space below the label */
+    font-weight: bold;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea {
+    display: block;
+    width: 100%; /* Default width for all inputs/textareas in forms */
+    padding: 10px 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding and border in width/height */
+    font-size: 1em;
+    line-height: 1.5;
+    outline: none;
+}
+
+form input[type="submit"] {
+    background-color: #f8843c;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+    display: block;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* --- Specific Styles for the Create Post Page Inputs --- */
+#create-post-form-container input[name="title"] {
+    font-size: 1.2em; /* Slightly larger font */
+    padding: 12px 15px; /* More padding */
+    width: 80%;
+    margin-bottom: 1em;
+}
+
+#create-post-form-container textarea[name="body"] {
+    min-height: 250px; /* Taller body textarea for creation */
+    max-height: 1200px; /* Limit max height for very long posts */
+    font-size: 1.1em;
+    padding: 12px 15px;
+    resize: vertical;
+}
+
+.admin-actions {}
+
 /*****************************************************************************/
 /*
 /* Lists (Index Page, Related Posts)
@@ -238,13 +319,15 @@ ul.posts span {
 /*****************************************************************************/
 
 .site .footer {
-  font-size: 80%;
-  color: #555;
-  border-top: 4px solid #eee;
-  margin-top: 3em;
-  padding-top: 1.5em;
-  overflow: hidden;
-  clear: both;
+    font-size: 80%;
+    color: #555;
+    border-top: 4px solid #eee;
+    /* Remove margin-top, it will be handled by flexbox pushing content */
+    margin-top: 0;
+    /*padding-top: 1.5em;
+    /*padding-bottom: 2em; /* Add some padding to the bottom of the footer itself */
+    overflow: hidden;
+    clear: both;
 }
 
 .site .footer .contact {

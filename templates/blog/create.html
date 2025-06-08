@@ -7,13 +7,15 @@
 
 {% block content %}
     {% if g.user %}
-        <form method="post">
-            <label for="title">Title</label>
-            <input name="title" id="title" required>
-            <label for="body">Body</label>
-            <textarea name="body" id="body" required></textarea>
-            <input type="submit" value="Create Post">
-        </form>
+        <div id="create-post-form-container" class="form-container">
+            <form method="post">
+                <label for="title">Title</label>
+                <input name="title" id="title" required>
+                <label for="body">Body</label>
+                <textarea name="body" id="body" required></textarea>
+                <input type="submit" value="Create Post">
+            </form>
+        </div>
     {% else %}
         <p>You must be logged in to create a post.</p>
     {% endif %}
