@@ -19,7 +19,7 @@ def index():
     return render_template('blog/index.html', posts=posts, recent_posts=recent_posts)
 
 # Route to view a single post
-@bp.route('/<int:id>')
+@bp.route('/<int:id>/')
 def view(id):
     db_session = current_app.extensions['db_manager'].get_database_session()
     post = db_session.query(Post).options(joinedload(Post.author)).filter(Post.id == id).first()
@@ -69,7 +69,7 @@ def get_post(id, check_author=True):
     return post
 
 # Route to update a post
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@bp.route('/<int:id>/update/', methods=('GET', 'POST'))
 @login_required
 def update(id):
     post = get_post(id)

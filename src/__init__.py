@@ -1,16 +1,32 @@
 import datetime
 import os
 import sqlite3
+import sys
 
 from . import auth
 from . import blog
-from flask import Flask, request, jsonify, current_app
+from .models import Post
+from flask import Flask, current_app
+from flask_frozen import Freezer
+from sqlalchemy.orm import joinedload
+
 
 from .sql_alchemy_db import SQLAlchemyDB, Base
 
 sqlite3.register_converter(
     "timestamp", lambda v: datetime.datetime.fromisoformat(v.decode())
 )
+
+def blog_update_url_generator():
+    # You need an application context to access current_app and db_manager
+    with current_app.app_context():
+        db_session = current_app.extensions['db_manager'].get_database_session()
+        # Assuming you have a Post model in blog_models
+        # Adjust 'Post' and 'post_id' if your model/column names are different
+        posts = db_session.query(Post).options(joinedload(Post.author)).order_by(Post.created_at.desc()).all()
+        for post in posts:
+            yield ('blog.view', {'id': post.id})
+
 
 def create_app(test_config=None):
     # create and configure flask app
@@ -44,6 +60,6 @@ def create_app(test_config=None):
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
-    app.add_url_rule('/', endpoint='index')
+    app.add_url_rule('/', endpoint='index', view_func=blog.index)
     
     return app

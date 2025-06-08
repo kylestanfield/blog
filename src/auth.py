@@ -10,7 +10,7 @@ from .models import User
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@bp.route('/register', methods=('GET', 'POST'))
+@bp.route('/register/', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST': 
         username = request.form['username']
@@ -39,7 +39,7 @@ def register():
         flash(error)
     return render_template('auth/register.html')
 
-@bp.route('/login', methods=('GET', 'POST'))
+@bp.route('/login/', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -74,7 +74,7 @@ def load_logged_in_user():
         g.user = db_session.query(User).filter_by(id=user_id).first()
 
 
-@bp.route('/logout')
+@bp.route('/logout/')
 def logout():
     session.clear()
     return redirect(url_for('index'))
