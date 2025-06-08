@@ -15,21 +15,22 @@
             <h1><a href="{{ url_for('blog.index') }}">Kyle's Blog</a></h1>
         </div>
 
-        <div class="about">
-            <h1>About</h1>
-            <p>Thoughts on networking, tech, and movies.</p>
-            <br/>
-            <h1>Links</h1>
-            <a rel="me" href="https://www.linkedin.com/in/kylejstanfield/">Kyle J. Stanfield on LinkedIn</a>
-        </div>
+        <div class="main-content-area">
+            <div id="post">
+                {# The main content from view.html, create.html, etc. will go here #}
+                {% block content %}{% endblock %}
+            </div>
 
-        <div id="post">
-            {# The main content from view.html, create.html, etc. will go here #}
-            {% block content %}{% endblock %}
+            <div class="about">
+                <h1>About</h1>
+                <p>Thoughts on networking, tech, and movies.</p>
+                <br/>
+                <h1>Links</h1>
+                <a rel="me" href="https://www.linkedin.com/in/kylejstanfield/">Kyle J. Stanfield on LinkedIn</a>
+            </div>
         </div>
-
         <div id="related">
-             {# The related posts block will go here #}
+              {# The related posts block will go here #}
             {% block related_posts %}{% endblock %}
         </div>
 
@@ -44,7 +45,7 @@
                 </p>
             </div>
             <div class="license">
-                This work is licensed under the <a href="https://opensource.org/licenses/MIT">MIT License</a>.            </div>
+                This work is licensed under the <a href="https://opensource.org/licenses/MIT">MIT License</a>.             </div>
         </div>
     </div>
 </body>

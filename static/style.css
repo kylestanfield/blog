@@ -1,17 +1,17 @@
 /*****************************************************************************/
 /*
-/* Common
+/* Common (Keep as is, mostly)
 /*
 /*****************************************************************************/
 
 /* Global Reset */
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 html {
-  height: 100%;
+    height: 100%;
 }
 
 body {
@@ -29,23 +29,23 @@ body {
 }
 
 blockquote {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: 2em;
-  padding-left: 1em;
-  border-left: 2px solid #ccc;
-  color: #555;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 2em;
+    padding-left: 1em;
+    border-left: 2px solid #ccc;
+    color: #555;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: helvetica, arial, sans-serif;
-  font-weight: bold;
-  color: #e4a066;
+    font-family: helvetica, arial, sans-serif;
+    font-weight: bold;
+    color: #e4a066;
 }
 
 h1 {
-  font-size: 2em;
-  margin-bottom: 0.5em;
+    font-size: 2em;
+    margin-bottom: 0.5em;
 }
 
 h2 {
@@ -54,27 +54,27 @@ h2 {
 }
 
 p {
-  margin-top: 1em;
-  margin-bottom: 0.25em;
-  line-height: 1.6em;
+    margin-top: 1em;
+    margin-bottom: 0.25em;
+    line-height: 1.6em;
 }
 
 
 a {
-  color: #e4a066;
-  text-decoration: none;
+    color: #e4a066;
+    text-decoration: none;
 }
 
 a:hover {
-  color: #c2763f;
-  text-decoration: underline;
+    color: #c2763f;
+    text-decoration: underline;
 }
 
 table {
-  font-size: inherit;
-  font: 100%;
-  width: 100%;
-  border-collapse: collapse;
+    font-size: inherit;
+    font: 100%;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 th, td {
@@ -83,9 +83,9 @@ th, td {
 }
 
 hr {
-  margin-bottom: 0.75em;
-  margin-top: 1.5em;
-  color: #3311113b;
+    margin-bottom: 0.75em;
+    margin-top: 1.5em;
+    color: #3311113b;
 }
 
 /*****************************************************************************/
@@ -95,24 +95,76 @@ hr {
 /*****************************************************************************/
 
 .site {
-  font-size: 100%;
-  width: 80em;
-  max-width: 95%;
-  margin: 0 auto;
-  line-height: 1.6em;
-  flex-grow: 1; /* This is the key: makes .site grow to fill available space */
-  padding: 3em 0 2em 0;
+    font-size: 100%;
+    /* Keep max-width, but adjust fixed width to a more reasonable value, or remove */
+    max-width: 1000px; /* Use px for predictability, or a suitable em value like 60em-70em */
+    width: 95%; /* Make it flexible */
+    margin: 0 auto;
+    line-height: 1.6em;
+    flex-grow: 1; /* This is the key: makes .site grow to fill available space */
+    padding: 3em 0 2em 0;
+
+    /* Introduce flexbox for direct children of .site for main layout */
+    display: flex;
+    flex-direction: column; /* Stack children vertically initially */
 }
 
+.site .title {
+    font-weight: bold;
+    margin-bottom: 1.5em; /* Adjusted margin for better flow */
+}
+
+.site .title a {
+    color: #0fd59de0;
+    font-size: 2em;
+    text-decoration: none;
+    text-shadow: 1px 1px 2px #BBBBBB;
+}
+
+.site .title a:hover {
+    color: #00b07f;
+}
+
+/* NEW FLEX CONTAINER FOR MAIN CONTENT AREA */
+.main-content-area {
+    display: flex; /* Use flexbox for the post and about sections */
+    flex-direction: row; /* Default to horizontal alignment (desktop) */
+    justify-content: space-between; /* Space out content and sidebar */
+    align-items: flex-start; /* Align items to the top */
+    flex-wrap: wrap; /* Allow items to wrap to next line if needed */
+}
+
+
+#post {
+    /* width: 50em; -- Remove fixed em width here as flex-basis will control it */
+    /* float: left; -- Remove float as we're using flexbox */
+    flex: 1 1 65%; /* Allows post to grow/shrink, with a preferred width of 65% */
+    min-width: 300px; /* Ensure it doesn't get too small */
+    margin-right: 2em; /* Space between post and about */
+}
+
+.site .about {
+    /* width: 20em; -- Remove fixed em width here as flex-basis will control it */
+    /* float: right; -- Remove float as we're using flexbox */
+    flex: 0 0 30%; /* Fixes about box size, doesn't grow/shrink much, preferred width of 30% */
+    min-width: 200px; /* Ensure it doesn't get too small */
+    padding-left: 0; /* Remove padding-left as it was for float-based layout */
+}
+
+.site .about h1 {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.3em;
+}
+
+/* Clearfix not strictly needed for flexbox but can remain if used elsewhere */
 .clearfix::after {
-    content: ""; /* Required for pseudo-element */
-    display: table; /* Establishes a new block formatting context */
-    clear: both; /* Clears floats on both sides */
-}
-
-.title {
-  font-weight: bold;
-  margin-bottom: 4em;
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .preview-body {
@@ -120,44 +172,11 @@ hr {
     margin-bottom: 2em;
 }
 
-.site .title a {
-  color: #0fd59de0;
-  font-size: 2em;
-  text-decoration: none;
-  text-shadow: 1px 1px 2px #BBBBBB;
-}
-
-.site .title a:hover {
-  color: #00b07f;
-}
-
-.site .about {
-  width: 20em;
-  float: right;
-  color: #555;
-  font-size: 0.9em;
-  padding-left: 2em;
-}
-
-.site .about h1 {
-  font-size: 1.2em;
-  margin-bottom: 0.5em;
-  margin-top: 1em;
-  color: #333;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.3em;
-}
-
 /*****************************************************************************/
 /*
-/* Post and Page Content
+/* Post and Page Content (Keep as is, mostly)
 /*
 /*****************************************************************************/
-
-#post {
-  width: 50em;
-  float: left;
-}
 
 .post-body {
     white-space: pre-wrap;
@@ -171,46 +190,46 @@ hr {
 }
 
 #post .meta {
-  color: #aaa;
-  font-style: italic;
-  margin-top: -1em;
-  font-size: 0.9em;
-  margin-bottom: 0.8em;
+    color: #aaa;
+    font-style: italic;
+    margin-top: -1em;
+    font-size: 0.9em;
+    margin-bottom: 0.8em;
 }
 
 #post img {
-  max-width: 100%;
-  height: auto;
-  padding: 0.2em;
-  border: 1px solid #ddd;
-  display: block;
-  margin: 1em auto;
+    max-width: 100%;
+    height: auto;
+    padding: 0.2em;
+    border: 1px solid #ddd;
+    display: block;
+    margin: 1em auto;
 }
 
 #post pre {
-  border: 1px solid #ddd;
-  background-color: #f8f8f8;
-  padding: 0.8em 1em;
-  overflow-x: auto;
-  font-size: 0.9em;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    padding: 0.8em 1em;
+    overflow-x: auto;
+    font-size: 0.9em;
 }
 
 #post ul,
 #post ol {
-  margin-left: 1.35em;
+    margin-left: 1.35em;
 }
 
 #post code {
-  border: 1px solid #ddd;
-  background-color: #f8f8f8;
-  font-size: 85%;
-  padding: 0.1em 0.3em;
-  font-family: "courier new", monospace;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    font-size: 85%;
+    padding: 0.1em 0.3em;
+    font-family: "courier new", monospace;
 }
 
 #post pre code {
-  border: none;
-  padding: 0;
+    border: none;
+    padding: 0;
 }
 
 /********************************************/
@@ -277,44 +296,44 @@ form input[type="submit"]:hover {
 
 /*****************************************************************************/
 /*
-/* Lists (Index Page, Related Posts)
+/* Lists (Index Page, Related Posts) (Keep as is)
 /*
 /*****************************************************************************/
 
 ul.posts {
-  list-style-type: none;
-  margin-bottom: 2em;
+    list-style-type: none;
+    margin-bottom: 2em;
 }
 
 ul.posts li {
-  line-height: 2em;
+    line-height: 2em;
 }
 
 ul.posts span {
-  color: #888;
-  font-family: monospace;
-  font-size: 0.9em;
-  padding-right: 1em;
+    color: #888;
+    font-family: monospace;
+    font-size: 0.9em;
+    padding-right: 1em;
 }
 
 #related {
-  margin-top: 3em;
-  clear: both;
-  width: 50em;
-  float: left;
+    margin-top: 3em;
+    clear: both; /* Keep clear: both if it's outside the main-content-area flex */
+    width: 100%; /* Ensure it spans full width */
+    /* float: left; -- Remove if .site is flex-column */
 }
 
 #related h2 {
     font-size: 1.5em;
-  margin-bottom: 1em;
-  border-top: 4px solid #eee;
-  padding-top: 1em;
+    margin-bottom: 1em;
+    border-top: 4px solid #eee;
+    padding-top: 1em;
 }
 
 
 /*****************************************************************************/
 /*
-/* Footer
+/* Footer (Keep as is)
 /*
 /*****************************************************************************/
 
@@ -322,80 +341,68 @@ ul.posts span {
     font-size: 80%;
     color: #555;
     border-top: 4px solid #eee;
-    /* Remove margin-top, it will be handled by flexbox pushing content */
-    margin-top: 0;
-    /*padding-top: 1.5em;
-    /*padding-bottom: 2em; /* Add some padding to the bottom of the footer itself */
+    margin-top: 2em; /* Add some margin top to separate from content */
+    padding-top: 1.5em;
+    padding-bottom: 2em;
     overflow: hidden;
     clear: both;
 }
 
 .site .footer .contact {
-  float: left;
-  margin-right: 3em;
+    float: left;
+    margin-right: 3em;
 }
 
 .site .footer .contact a {
-  color: #8085C1;
+    color: #8085C1;
 }
 
 .site .footer .license {
-  margin-top: 1.1em;
-  float: right;
-  text-align: right;
+    margin-top: 1.1em;
+    float: right;
+    text-align: right;
 }
 
 .site .footer .license img {
-  border: 0;
+    border: 0;
 }
 
 
 /*****************************************************************************/
 /*
-/* Responsive Design
+/* Responsive Design (Simplified)
 /*
 /*****************************************************************************/
 
-@media only screen and (max-width: 900px) {
-  body {
-    margin-left: 0;
-    text-align: left;
-  }
-  .site {
-    display: flex;
-    flex-flow: column;
-    width: 95%;
-    margin: 1em auto;
-  }
-  .title {
-    margin-bottom: 1.5em;
-  }
-  #post {
-    order: 1; /* Content first */
-    width: 100%;
-    margin-top: 0;
-    float: none;
-  }
-  .site .about {
-    order: 2; /* About box after content */
-    float: none;
-    width: 100%;
-    padding-left: 0;
-    margin-top: 2em;
-  }
-  #related {
-    order: 3; /* Related posts after about */
-    width: 100%;
-    float: none;
-  }
-  .site .footer {
-    order: 4; /* Footer last */
-    float: none;
-  }
-  .site .footer .contact, .site .footer .license {
-      float: none;
-      width: 100%;
-      text-align: left;
-      margin-bottom: 1em;
-  }
+@media only screen and (max-width: 900px) { /* You might want to adjust this breakpoint (e.g., to 768px for tablets) */
+    body {
+        margin-left: 0;
+        text-align: left;
+    }
+    .site {
+        width: 95%;
+        margin: 1em auto;
+        /* display: flex; flex-flow: column; is already on .site, but applies to main-content-area as well */
+    }
+    .main-content-area {
+        flex-direction: column; /* Stack content and sidebar vertically on mobile */
+    }
+    #post {
+        margin-right: 0; /* Remove margin when stacked */
+        flex-basis: auto; /* Allow it to take full width */
+    }
+    .site .about {
+        margin-top: 2em; /* Add space between post and about when stacked */
+        flex-basis: auto; /* Allow it to take full width */
+    }
+    #related {
+        /* No change needed here, it should naturally stack */
+    }
+    .site .footer .contact,
+    .site .footer .license {
+        float: none;
+        width: 100%;
+        text-align: left;
+        margin-bottom: 1em;
+    }
 }
