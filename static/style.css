@@ -97,7 +97,7 @@ hr {
 .site {
     font-size: 100%;
     /* Keep max-width, but adjust fixed width to a more reasonable value, or remove */
-    max-width: 1000px; /* Use px for predictability, or a suitable em value like 60em-70em */
+    max-width: 1400px; /* Use px for predictability, or a suitable em value like 60em-70em */
     width: 95%; /* Make it flexible */
     margin: 0 auto;
     line-height: 1.6em;
