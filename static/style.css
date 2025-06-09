@@ -21,7 +21,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: white;
-    font: 1.1em georgia, "times new roman", serif;
+    font: 1.2em georgia, "times new roman", serif;
     text-align: left;
     hyphens: auto;
     color: #333;
@@ -101,7 +101,6 @@ hr {
     width: 95%; /* Make it flexible */
     margin: 0 auto;
     line-height: 1.6em;
-    flex-grow: 1; /* This is the key: makes .site grow to fill available space */
     padding: 3em 0 2em 0;
 
     /* Introduce flexbox for direct children of .site for main layout */
@@ -390,8 +389,10 @@ ul.posts span {
         flex-basis: auto; /* Allow it to take full width */
     }
     .site .about {
-        margin-top: 2em; /* Add space between post and about when stacked */
+        margin-top: 1em; /* Reduced from 2em to 1em to lessen space above it */
         flex-basis: auto; /* Allow it to take full width */
+        margin-bottom: 0; /* Add this to remove any lingering bottom margin */
+        padding-bottom: 0; /* ADD THIS: Remove any bottom padding on the about section */
     }
     .site .footer .contact,
     .site .footer .license {
@@ -399,5 +400,46 @@ ul.posts span {
         width: 100%;
         text-align: left;
         margin-bottom: 1em;
+    }
+
+    /* --- NEW ADDITION FOR MOBILE TITLE FIX --- */
+    .site .title a {
+        font-size: 1.5em; /* Reduce font size for smaller screens */
+        white-space: nowrap; /* Prevent text from wrapping if possible */
+        overflow: hidden; /* Hide overflow if nowrap causes issues (less ideal) */
+        text-overflow: ellipsis; /* Add ellipsis if text is cut off (less ideal) */
+    }
+
+    /* ADDED/ADJUSTED FOR REDUCING SPACE UNDER LINKS ON MOBILE */
+    .site .about h1 {
+        margin-top: 1em; /* Keep current heading top margin */
+        margin-bottom: 0.3em; /* Slightly reduce bottom margin for headings */
+        padding-bottom: 0.1em; /* Reduce padding below heading border */
+    }
+    .site .about p {
+        margin-top: 0.5em; /* Reduce top margin for paragraphs in 'about' */
+        margin-bottom: 0.5em; /* Reduce bottom margin for paragraphs in 'about' */
+    }
+    .site .about a {
+        margin-bottom: 0.3em; /* Reduce margin on individual links */
+        display: block; /* Make links block level to respect margins better */
+    }
+    .site .about br {
+        display: none; /* Hide the <br/> tags to remove their inherent vertical space */
+    }
+
+    /* Target the LAST element in the about section to remove its bottom margin/padding */
+    .site .about *:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    /* If the last child is an <a> tag and still has space */
+    .site .about a:last-of-type {
+        margin-bottom: 0;
+    }
+
+    /* Adjust the margin for the #related section when on mobile */
+    #related {
+        margin-top: 1.5em; /* Reduce the top margin of the related section */
     }
 }
