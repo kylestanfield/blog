@@ -9,7 +9,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
