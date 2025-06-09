@@ -26,6 +26,7 @@ def blog_update_url_generator():
         posts = db_session.query(Post).options(joinedload(Post.author)).order_by(Post.created_at.desc()).all()
         for post in posts:
             yield ('blog.view', {'id': post.id})
+        yield '/'
 
 
 def create_app(test_config=None):
@@ -49,13 +50,7 @@ def create_app(test_config=None):
     else:
         # Load the test config
         app.config.from_mapping(test_config)
-
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
-
+    
     app.extensions['db_manager'] = SQLAlchemyDB.create_from_app(app)
 
     app.register_blueprint(auth.bp)

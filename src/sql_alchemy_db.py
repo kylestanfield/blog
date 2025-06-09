@@ -28,16 +28,12 @@ class SQLAlchemyDB:
         Factory method to create and initialize SQLAlchemyDB instance.
         """
 
-        instance_path = app.instance_path
-        os.makedirs(instance_path, exist_ok=True)
-
-        database_path = os.path.join(instance_path, 'blog.sqlite')
+        database_path = os.path.join(os.path.dirname(app.root_path), 'blog.sqlite')
         database_url = f"sqlite:///{database_path}"
 
         engine_instance = create_engine(
             database_url,
             echo=False,
-            connect_args={"check_same_thread": False}, # Essential for SQLite with multiple threads
         )
 
         SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine_instance)

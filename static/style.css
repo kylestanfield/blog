@@ -292,8 +292,6 @@ form input[type="submit"]:hover {
     resize: vertical;
 }
 
-.admin-actions {}
-
 /*****************************************************************************/
 /*
 /* Lists (Index Page, Related Posts) (Keep as is)
@@ -394,9 +392,6 @@ ul.posts span {
     .site .about {
         margin-top: 2em; /* Add space between post and about when stacked */
         flex-basis: auto; /* Allow it to take full width */
-    }
-    #related {
-        /* No change needed here, it should naturally stack */
     }
     .site .footer .contact,
     .site .footer .license {

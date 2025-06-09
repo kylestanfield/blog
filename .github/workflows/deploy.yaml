@@ -1,0 +1,46 @@
+# .github/workflows/deploy.yml
+name: Deploy Blog to S3
+
+on:
+  push:
+    branches:
+      - master # Triggers on pushes to the 'master' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies from requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        working-directory: ./blog # Commands run from the 'blog' directory
+
+      - name: Configure AWS credentials from secrets
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2 # Your AWS Region
+
+      - name: Generate static files with Frozen-Flask
+        env:
+          DATABASE_URL: 'sqlite:///blog.sqlite'
+        run: python build.py
+        working-directory: ./blog # Commands run from the 'blog' directory, where build.py is
+
+      - name: Upload to S3
+        run: |
+          # Syncs the 'build/' directory (which is inside 'blog/') to your S3 bucket.
+          # The path 'build/' is relative to the 'working-directory' of this step.
+          aws s3 sync build/ s3://kylestanfield.com --delete
+        working-directory: ./blog # Commands run from the 'blog' directory, which contains 'build/'

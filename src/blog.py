@@ -36,6 +36,7 @@ def view(id):
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
+    print("Create")
     if request.method == "POST":
         db_session = current_app.extensions['db_manager'].get_database_session()
         title = request.form['title']
