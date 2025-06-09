@@ -188,6 +188,11 @@ hr {
     color: #444;
 }
 
+.post-body p {
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
 #post .meta {
     color: #aaa;
     font-style: italic;

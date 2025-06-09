@@ -6,13 +6,13 @@
     {# Loop through each post passed from the Flask route #}
     {% for post in posts %}
         <div class="post-preview">
-            <h2><a href="{{ url_for('blog.view', id=post.id) }}">{{ post.title }}</a></h2>
+            <h2><a href="{{ url_for('blog.view', id=post.id) }}">{{ post.title  | safe }}</a></h2>
 
             <p class="meta">
                 {{ post.created_at.strftime('%B %d, %Y') }}
             </p>
             <div class="preview-body">
-                {{ post.body | striptags | truncate(200) }}
+                {{ post.body | striptags | truncate(200)  | safe }}
             </div>
 
             {# A link to read the full post #}

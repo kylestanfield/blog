@@ -2,8 +2,11 @@
 
 from datetime import datetime, timezone
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
-from sqlalchemy.orm import relationship # Only needed if you have relationships
-from .sql_alchemy_db import Base # <-- Import Base from your db setup
+from sqlalchemy.orm import relationship
+from .sql_alchemy_db import Base
+import markdown
+
+# Inherit from the Base class to get SQLAlchemy to automatically create tables and constraints for these classes
 
 class User(Base):
     __tablename__ = 'user'
@@ -16,7 +19,6 @@ class User(Base):
     def __repr__(self):
         return f"<User(id={self.id}, username='{self.username}')>"
 
-# If you had other models like Post, they would go here too:
 class Post(Base):
     __tablename__ = 'post'
     id = Column(Integer, primary_key=True)
@@ -26,3 +28,15 @@ class Post(Base):
     created_at = Column(DateTime, default=datetime.now(timezone.utc))
 
     author = relationship('User', back_populates='posts')
+
+class MarkdownPost:
+    def __init__(self, p: Post):
+        self.id = p.id
+        self.title = markdown.markdown(str(p.title))
+        self.body = markdown.markdown(str(p.body))
+        self.created_at = p.created_at
+        self.author_id = p.author_id
+        self.author = p.author
+
+def parsePost(post: Post) -> MarkdownPost:
+    return MarkdownPost(post) # type: ignore

@@ -5,7 +5,7 @@ from werkzeug.exceptions import abort
 from sqlalchemy.orm import joinedload
 
 from .auth import login_required
-from .models import Post
+from .models import Post, MarkdownPost, parsePost
 
 bp = Blueprint('blog', __name__)
 
@@ -13,10 +13,9 @@ bp = Blueprint('blog', __name__)
 def index():
     db_session = current_app.extensions['db_manager'].get_database_session()
     posts = db_session.query(Post).options(joinedload(Post.author)).order_by(Post.created_at.desc()).all()
+    posts = [parsePost(p) for p in posts]
 
-    # Fetch a few recent posts for the "Other Posts" section
-    recent_posts = db_session.query(Post).order_by(Post.created_at.desc()).limit(5).all()
-    return render_template('blog/index.html', posts=posts, recent_posts=recent_posts)
+    return render_template('blog/index.html', posts=posts)
 
 # Route to view a single post
 @bp.route('/<int:id>/')
@@ -26,9 +25,11 @@ def view(id):
     
     if post is None:
         abort(404, f"Post id {id} doesn't exist.")
+    post = parsePost(post)
 
     # Fetch a few recent posts for the "Other Posts" section
     recent_posts = db_session.query(Post).order_by(Post.created_at.desc()).limit(5).all()
+    recent_posts = [parsePost(p) for p in recent_posts]
     
     return render_template('blog/view.html', post=post, recent_posts=recent_posts)
 

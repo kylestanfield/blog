@@ -3,10 +3,10 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-    <h1>{{ post.title }}</h1>
+    <h1>{{ post.title | safe }}</h1>
     <p class="meta">{{ post.created_at.strftime('%B %d, %Y') }}</p>
 
-    <div class="post-body"><p>{{ post.body }}</p></div>
+    <div class="post-body"><p>{{ post.body | safe }}</p></div>
 
     {% if g.user and g.user.id == post.author_id %}
       <div class="admin-actions">
