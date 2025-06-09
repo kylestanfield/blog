@@ -12,7 +12,7 @@
                 {{ post.created_at.strftime('%B %d, %Y') }}
             </p>
             <div class="preview-body">
-                {{ post.body | striptags | truncate(100) }}
+                {{ post.body | striptags | truncate(200) }}
             </div>
 
             {# A link to read the full post #}
