@@ -39,3 +39,9 @@ jobs:
         run: |
           # Syncs the 'build/' directory (which is inside 'blog/') to your S3 bucket.
           aws s3 sync build/ s3://kylestanfield.com --delete
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id EGOUXQV2ESRMJ \
+            --paths "/*" # Invalidates all files in the distribution

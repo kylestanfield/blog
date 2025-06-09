@@ -1,13 +1,12 @@
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
-from flask import g, Flask # current_app is implicitly used via 'app' argument
+from flask import g, Flask
 import flask.cli
 import click
 import os
-from typing import Type # For type hinting classmethods
+from typing import Type 
 
-# Base class for your SQLAlchemy models
 Base = declarative_base()
 
 class SQLAlchemyDB:
@@ -39,7 +38,7 @@ class SQLAlchemyDB:
         SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine_instance)
         current_scoped_session = scoped_session(SessionLocal)
 
-        # Create the SQLAlchemyDB instance with pre-initialized attributes
+        # Create the SQLAlchemyDB instance
         db_instance = cls(engine_instance, current_scoped_session)
 
         # Register callbacks with the Flask app instance
@@ -75,8 +74,6 @@ class SQLAlchemyDB:
         db_session_to_close = g.pop('db_session_instance', None)
         if db_session_to_close is not None:
             db_session_to_close.close()
-        # Crucial: Call remove() on the scoped_session to clean up the thread-local state
-        # associated with the request, making it ready for the next request.
         self.current_scoped_session.remove()
 
     def _run_build_tables(self):
