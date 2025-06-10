@@ -32,7 +32,7 @@ class Post(Base):
 class MarkdownPost:
     def __init__(self, p: Post):
         self.id = p.id
-        self.title = markdown.markdown(str(p.title))
+        self.title = p.title
         self.body = markdown.markdown(str(p.body))
         self.created_at = p.created_at
         self.author_id = p.author_id
