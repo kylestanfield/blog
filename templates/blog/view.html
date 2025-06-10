@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ post.title | safe }}{% endblock %}
 
 {% block content %}
     <h1>{{ post.title | safe }}</h1>
@@ -24,7 +24,7 @@
     <ul class="posts">
         {% for recent in recent_posts %}
             {% if recent.id != post.id %} {# Don't list the current post as a related post #}
-            <li><span>{{ recent.created_at.strftime('%d %b %Y') }}</span> &raquo; <a href="{{ url_for('blog.view', id=recent.id) }}">{{ recent.title }}</a></li>
+            <li><span>{{ recent.created_at.strftime('%d %b %Y') }}</span> &raquo; <a href="{{ url_for('blog.view', id=recent.id) }}">{{ recent.title | safe }}</a></li>
             {% endif %}
         {% endfor %}
     </ul>
