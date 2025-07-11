@@ -3,6 +3,8 @@
 {% block title %}{{ post.title | safe }}{% endblock %}
 
 {% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='pygments_style.css') }}" type="text/css" media="screen, projection" />
+
     <h1>{{ post.title | safe }}</h1>
     <p class="meta">{{ post.created_at.strftime('%B %d, %Y') }}</p>
 
@@ -20,12 +22,12 @@
 
 {% block related_posts %}
     <h2>Other Posts</h2>
-    &laquo; <a href="{{ url_for('blog.index') }}">Back to the blog index</a><br>
     <ul class="posts">
         {% for recent in recent_posts %}
             {% if recent.id != post.id %} {# Don't list the current post as a related post #}
-            <li><span>{{ recent.created_at.strftime('%d %b %Y') }}</span> &raquo; <a href="{{ url_for('blog.view', id=recent.id) }}">{{ recent.title | safe }}</a></li>
+            <li><span>{{ recent.created_at.strftime('%b %d %Y') }}</span> &raquo; <a href="{{ url_for('blog.view', id=recent.id) }}">{{ recent.title | safe }}</a></li>
             {% endif %}
         {% endfor %}
     </ul>
+  &laquo; <a href="{{ url_for('blog.index') }}">Back to the blog index</a><br>
 {% endblock %}

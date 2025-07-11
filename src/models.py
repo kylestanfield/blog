@@ -33,7 +33,9 @@ class MarkdownPost:
     def __init__(self, p: Post):
         self.id = p.id
         self.title = p.title
-        self.body = markdown.markdown(str(p.body))
+        
+        cleaned_markdown = str(p.body).replace('\u3000', ' ')
+        self.body = markdown.markdown(cleaned_markdown, extensions=['fenced_code', 'codehilite'])
         self.created_at = p.created_at
         self.author_id = p.author_id
         self.author = p.author

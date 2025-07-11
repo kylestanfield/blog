@@ -57,6 +57,7 @@ p {
     margin-top: 1em;
     margin-bottom: 0.25em;
     line-height: 1.6em;
+    font-size: 14pt;
 }
 
 
@@ -181,16 +182,49 @@ hr {
     white-space: pre-wrap;
     text-indent: 0;
     word-wrap: break-word;
-    font-size: 1.1em;
+    font-size: 14pt;
     line-height: 1.6em;
     margin-top: 1em;
     margin-bottom: 1em;
     color: #444;
 }
 
+
+/* Ensure paragraphs inside post-body are tightly spaced */
 .post-body p {
-    margin-top: 0em;
-    margin-bottom: 0em;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.2em; /* Keep this for readability of paragraph text */
+}
+
+/* Control lists within the post body - THIS IS THE CRITICAL BLOCK */
+#post ul,
+#post ol {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 1.35em; /* Use this for your desired indentation */
+    line-height: 1.25em;     /* No extra space between lines */
+    list-style-position: outside; /* Ensure bullets are outside the content box */
+    /* Add this if you want to visually see if default padding is still there */
+    /* border: 1px solid red; */
+}
+
+/* Control individual list items for ultimate tightness */
+#post ul li,
+#post ol li {
+    margin: 0;          /* Ensure no margin on individual list items */
+    padding: 0;         /* Ensure no padding on individual list items */
+    line-height: 1.25em;   /* Exactly font-size height */
+    font-size: 13pt;    /* Your chosen font size */
+    vertical-align: top; /* Good for alignment */
+}
+
+/* Add a very specific rule to override browser's default padding-left if needed */
+/* This might be necessary if the 40px is still persisting visually despite the 1.35em */
+ul { /* Target ul more generally, or be specific if other ul's exist */
+    padding-left: 1.35em !important; /* Force override if necessary, but use sparingly */
 }
 
 #post .meta {
@@ -199,6 +233,7 @@ hr {
     margin-top: -1em;
     font-size: 0.9em;
     margin-bottom: 0.8em;
+    margin-left:1.5em;
 }
 
 #post img {
@@ -213,18 +248,14 @@ hr {
 #post pre {
     border: 1px solid #ddd;
     background-color: #f8f8f8;
-    padding: 0.8em 1em;
     overflow-x: auto;
     font-size: 0.9em;
-}
-
-#post ul,
-#post ol {
-    margin-left: 1.35em;
+    margin-top: 0; /* <--- ADD THIS LINE */
 }
 
 #post code {
     border: 1px solid #ddd;
+    color: #000000;
     background-color: #f8f8f8;
     font-size: 85%;
     padding: 0.1em 0.3em;
@@ -253,6 +284,7 @@ form input[type="password"],
 form textarea {
     display: block;
     width: 100%; /* Default width for all inputs/textareas in forms */
+    height: 75%;
     padding: 10px 12px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
@@ -289,7 +321,7 @@ form input[type="submit"]:hover {
 }
 
 #create-post-form-container textarea[name="body"] {
-    min-height: 250px; /* Taller body textarea for creation */
+    min-height: 550px; /* Taller body textarea for creation */
     max-height: 1200px; /* Limit max height for very long posts */
     font-size: 1.1em;
     padding: 12px 15px;
@@ -304,11 +336,11 @@ form input[type="submit"]:hover {
 
 ul.posts {
     list-style-type: none;
-    margin-bottom: 2em;
+    margin-bottom: 1.25em;
 }
 
 ul.posts li {
-    line-height: 2em;
+    line-height: 1.25em;
 }
 
 ul.posts span {
