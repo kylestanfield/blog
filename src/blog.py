@@ -95,7 +95,7 @@ def update(id):
 
     return render_template('blog/update.html', post=post)
 
-@bp.route('/ryu/privacy-policy')
+@bp.route('/ryu/privacy-policy/')
 def ryu_privacy_policy():
     return render_template('ryu_privacy_policy.html')
 
