@@ -27,6 +27,7 @@ def blog_update_url_generator():
         for post in posts:
             yield ('blog.view', {'id': post.id})
         yield '/'
+        yield ('blog.ryu_privacy_policy', {})
 
 
 def create_app(test_config=None):
