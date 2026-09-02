@@ -28,6 +28,8 @@ def blog_update_url_generator():
             yield ('blog.view', {'id': post.id})
         yield '/'
         yield ('blog.ryu_privacy_policy', {})
+        yield ('blog.japanese_news_dark_mode_support', {})
+        yield ('blog.japanese_news_dark_mode_privacy', {})
 
 
 def create_app(test_config=None):

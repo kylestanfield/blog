@@ -99,6 +99,14 @@ def update(id):
 def ryu_privacy_policy():
     return render_template('ryu_privacy_policy.html')
 
+@bp.route('/japanese-news-dark-mode/support/')
+def japanese_news_dark_mode_support():
+    return render_template('japanese_news_dark_mode_support.html')
+
+@bp.route('/japanese-news-dark-mode/privacy/')
+def japanese_news_dark_mode_privacy():
+    return render_template('japanese_news_dark_mode_privacy.html')
+
 # Route to delete a post
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
