@@ -1,8 +1,12 @@
+import os
+from datetime import datetime, timezone
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, current_app
 )
 from werkzeug.exceptions import abort
 from sqlalchemy.orm import joinedload
+import markdown
 
 from .auth import login_required
 from .models import Post, MarkdownPost, parsePost
@@ -94,6 +98,34 @@ def update(id):
             return redirect(url_for('blog.view', id=post.id))
 
     return render_template('blog/update.html', post=post)
+
+@bp.route('/preview/<slug>')
+def preview(slug):
+    # Prevent path traversal
+    if '/' in slug or '..' in slug:
+        abort(400)
+    drafts_dir = os.path.join(current_app.root_path, '..', 'drafts')
+    draft_path = os.path.abspath(os.path.join(drafts_dir, f'{slug}.md'))
+    if not os.path.exists(draft_path):
+        abort(404, f"No draft found for '{slug}'.")
+
+    with open(draft_path) as f:
+        raw = f.read()
+
+    lines = [l for l in raw.splitlines() if not l.startswith('#')]
+    body_md = '\n'.join(lines).strip()
+    body_html = markdown.markdown(body_md, extensions=['fenced_code', 'codehilite'])
+
+    class DraftPost:
+        id = None
+        title = slug.replace('-', ' ').title()
+        body = body_html
+        created_at = datetime.now(timezone.utc)
+        author_id = None
+        author = None
+
+    return render_template('blog/view.html', post=DraftPost(), recent_posts=[])
+
 
 @bp.route('/ryu/privacy-policy/')
 def ryu_privacy_policy():

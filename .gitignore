@@ -13,3 +13,13 @@ dist/
 build/
 *.egg-info/
 .env
+
+/drafts/
+
+node_modules/
+.astro/
+.DS_Store
+
+# Private drafts stay local; publish by moving a file out of drafts/.
+src/content/blog/drafts/*
+!src/content/blog/drafts/.gitkeep

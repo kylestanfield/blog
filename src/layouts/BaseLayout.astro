@@ -1,0 +1,67 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  draft?: boolean;
+}
+
+const {
+  title,
+  description = 'Thoughts on networking, tech, and movies by Kyle Stanfield.',
+  draft = false,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Kyle Stanfield" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL('/static/Blog.png', Astro.site).href} />
+    <meta property="og:url" content={canonical.href} />
+    <link rel="canonical" href={canonical} />
+    {draft && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Kyle's Blog" href="/rss.xml" />
+    {import.meta.env.PROD && <>
+      <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5G7758GHBT"></script>
+      <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5G7758GHBT');
+      </script>
+    </>}
+  </head>
+  <body>
+    <div class="site clearfix">
+      <div class="title"><h1><a href="/">Kyle's Blog</a></h1></div>
+      <div class="main-content-area">
+        <main id="post"><slot /></main>
+        <aside class="about">
+          <h1>About</h1>
+          <p>Thoughts on networking, tech, and movies.</p>
+          <br />
+          <a rel="me" href="https://www.linkedin.com/in/kylejstanfield/">My LinkedIn</a><br />
+          <a rel="me" href="https://github.com/kylestanfield">My Github</a>
+        </aside>
+      </div>
+      <div id="related"><slot name="related" /></div>
+      <footer class="footer">
+        <div class="contact"><p>Kyle Stanfield<br /></p><p><a href="/rss.xml">RSS</a></p></div>
+        <div class="license">
+          This work is licensed under the <a href="https://opensource.org/licenses/MIT">MIT License</a>.
+          &nbsp;&middot;&nbsp;<a href="/ryu/privacy-policy/">Ryu Privacy Policy</a>
+          &nbsp;&middot;&nbsp;<a href="/japanese-news-dark-mode/support/">Japanese News Dark Mode Support</a>
+          &nbsp;&middot;&nbsp;<a href="/japanese-news-dark-mode/privacy/">Japanese News Dark Mode Privacy</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

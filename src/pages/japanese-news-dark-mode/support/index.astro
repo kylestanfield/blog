@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Japanese News Dark Mode — Support">
+<style is:global>
+    .support h2 { margin-top: 1.6em; }
+    .support p, .support ul { padding-left: 0.5em; }
+    .support ul li { line-height: 1.7em; margin-bottom: 0.4em; }
+    .about { display: none; }
+    #post { flex: 1 1 100%; margin-right: 0; max-width: 900px; }
+</style>
+<h1>Japanese News Dark Mode Support</h1>
+<p class="meta" style="margin-top: 0.4em;">Support for the Safari extension</p>
+
+<div class="post-body support" style="white-space: normal;">
+
+<p>Japanese News Dark Mode adds a dark theme to the NHK News Web Easy website and follows your device's light or dark appearance setting.</p>
+
+<h2>Getting Started</h2>
+<ol>
+    <li>Install Japanese News Dark Mode from the App Store.</li>
+    <li>Open Safari and enable the extension in Safari Settings under Extensions.</li>
+    <li>Visit the NHK News Web Easy website: <a href="https://news.web.nhk/">news.web.nhk</a>.</li>
+    <li>Set your device to Light or Dark appearance. The site will follow that setting.</li>
+</ol>
+
+<h2>Troubleshooting</h2>
+<ul>
+    <li>If the extension does not appear, confirm that it is enabled in Safari Settings &gt; Extensions.</li>
+    <li>If the page does not change, reload the NHK News Web Easy page after enabling the extension.</li>
+    <li>The extension is designed for NHK News Web Easy pages. Its toolbar button may appear inactive on other websites.</li>
+    <li>If the problem continues, update Safari and your device, then relaunch Safari.</li>
+</ul>
+
+<h2>Contact</h2>
+<p>For support, email <a href="mailto:kyle@kylestanfield.com">kyle@kylestanfield.com</a>. Please include your device, operating system, Safari version, and a description of the problem. Do not include passwords or other sensitive information.</p>
+
+<p>See the <a href="/japanese-news-dark-mode/privacy/">Japanese News Dark Mode Privacy Policy</a> for information about data handling.</p>
+
+</div>
+</BaseLayout>

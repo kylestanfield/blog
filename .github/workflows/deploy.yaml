@@ -1,10 +1,13 @@
-# .github/workflows/deploy.yml
 name: Deploy Blog to S3
 
 on:
   push:
-    branches:
-      - master # Triggers on pushes to the 'master' branch
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
 
 jobs:
   deploy:
@@ -13,35 +16,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.12'
+          node-version-file: .nvmrc
+          cache: npm
 
-      - name: Install dependencies from requirements.txt
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check Astro and TypeScript
+        run: npm run check
+
+      - name: Build and verify static site
+        run: npm test
 
       - name: Configure AWS credentials from secrets
+        if: github.event_name == 'push'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Generate static files with Frozen-Flask
-        env:
-          DATABASE_URL: 'sqlite:///blog.sqlite'
-        run: python build.py
-
       - name: Upload to S3
-        run: |
-          # Syncs the 'build/' directory (which is inside 'blog/') to your S3 bucket.
-          aws s3 sync build/ s3://kylestanfield.com --delete
+        if: github.event_name == 'push'
+        run: aws s3 sync dist/ s3://kylestanfield.com --delete
 
-      - name: Invalidate CloudFront Cache
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id EGOUXQV2ESRMJ \
-            --paths "/*" # Invalidates all files in the distribution
+      - name: Invalidate CloudFront cache
+        if: github.event_name == 'push'
+        run: >-
+          aws cloudfront create-invalidation
+          --distribution-id EGOUXQV2ESRMJ
+          --paths "/*"

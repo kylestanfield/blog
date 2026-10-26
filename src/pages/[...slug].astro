@@ -1,0 +1,29 @@
+---
+import { render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPosts, formatDate, isDraft, postUrl, type Post } from '../lib/posts';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+interface Props { post: Post }
+const { post } = Astro.props;
+const { Content } = await render(post);
+const recent = (await getPosts()).slice(0, 5).filter((other) => other.id !== post.id);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} draft={isDraft(post)}>
+  <h1>{post.data.title}</h1>
+  <p class="meta">{formatDate(post.data.pubDate)}{isDraft(post) && ' · Draft (local preview only)'}</p>
+  <div class="post-body"><Content /></div>
+  <Fragment slot="related">
+    <h2>Other Posts</h2>
+    <ul class="posts">
+      {recent.map((other) => <li><span>{formatDate(other.data.pubDate, true)}</span> &raquo; <a href={postUrl(other)}>{other.data.title}</a></li>)}
+    </ul>
+    &laquo; <a href="/">Back to the blog index</a><br />
+  </Fragment>
+</BaseLayout>

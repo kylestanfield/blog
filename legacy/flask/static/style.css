@@ -1,0 +1,482 @@
+/*****************************************************************************/
+/*
+/* Common (Keep as is, mostly)
+/*
+/*****************************************************************************/
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    display: flex; /* Make body a flex container */
+    flex-direction: column; /* Stack children vertically */
+    min-height: 100vh; /* Ensure body takes at least 100% of viewport height */
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font: 1.2em georgia, "times new roman", serif;
+    text-align: left;
+    hyphens: auto;
+    color: #333;
+    text-indent: 0;
+}
+
+blockquote {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 2em;
+    padding-left: 1em;
+    border-left: 2px solid #ccc;
+    color: #555;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: helvetica, arial, sans-serif;
+    font-weight: bold;
+    color: #e4a066;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.75em;
+}
+
+p {
+    margin-top: 1em;
+    margin-bottom: 0.25em;
+    line-height: 1.6em;
+    font-size: 14pt;
+}
+
+
+a {
+    color: #e4a066;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #c2763f;
+    text-decoration: underline;
+}
+
+table {
+    font-size: inherit;
+    font: 100%;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+hr {
+    margin-bottom: 0.75em;
+    margin-top: 1.5em;
+    color: #3311113b;
+}
+
+/*****************************************************************************/
+/*
+/* Site Layout
+/*
+/*****************************************************************************/
+
+.site {
+    font-size: 100%;
+    /* Keep max-width, but adjust fixed width to a more reasonable value, or remove */
+    max-width: 1400px; /* Use px for predictability, or a suitable em value like 60em-70em */
+    width: 95%; /* Make it flexible */
+    margin: 0 auto;
+    line-height: 1.6em;
+    padding: 3em 0 2em 0;
+
+    /* Introduce flexbox for direct children of .site for main layout */
+    display: flex;
+    flex-direction: column; /* Stack children vertically initially */
+}
+
+.site .title {
+    font-weight: bold;
+    margin-bottom: 1.5em; /* Adjusted margin for better flow */
+}
+
+.site .title a {
+    color: #0fd59de0;
+    font-size: 2em;
+    text-decoration: none;
+    text-shadow: 1px 1px 2px #BBBBBB;
+}
+
+.site .title a:hover {
+    color: #00b07f;
+}
+
+/* NEW FLEX CONTAINER FOR MAIN CONTENT AREA */
+.main-content-area {
+    display: flex; /* Use flexbox for the post and about sections */
+    flex-direction: row; /* Default to horizontal alignment (desktop) */
+    justify-content: space-between; /* Space out content and sidebar */
+    align-items: flex-start; /* Align items to the top */
+    flex-wrap: wrap; /* Allow items to wrap to next line if needed */
+}
+
+
+#post {
+    /* width: 50em; -- Remove fixed em width here as flex-basis will control it */
+    /* float: left; -- Remove float as we're using flexbox */
+    flex: 1 1 65%; /* Allows post to grow/shrink, with a preferred width of 65% */
+    min-width: 300px; /* Ensure it doesn't get too small */
+    margin-right: 2em; /* Space between post and about */
+}
+
+.site .about {
+    /* width: 20em; -- Remove fixed em width here as flex-basis will control it */
+    /* float: right; -- Remove float as we're using flexbox */
+    flex: 0 0 30%; /* Fixes about box size, doesn't grow/shrink much, preferred width of 30% */
+    min-width: 200px; /* Ensure it doesn't get too small */
+    padding-left: 0; /* Remove padding-left as it was for float-based layout */
+}
+
+.site .about h1 {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.3em;
+}
+
+/* Clearfix not strictly needed for flexbox but can remain if used elsewhere */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.preview-body {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+/*****************************************************************************/
+/*
+/* Post and Page Content (Keep as is, mostly)
+/*
+/*****************************************************************************/
+
+.post-body {
+    white-space: pre-wrap;
+    text-indent: 0;
+    word-wrap: break-word;
+    font-size: 14pt;
+    line-height: 1.6em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: #444;
+}
+
+
+/* Ensure paragraphs inside post-body are tightly spaced */
+.post-body p {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.2em; /* Keep this for readability of paragraph text */
+}
+
+/* Control lists within the post body - THIS IS THE CRITICAL BLOCK */
+#post ul,
+#post ol {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 1.35em; /* Use this for your desired indentation */
+    line-height: 1.25em;     /* No extra space between lines */
+    list-style-position: outside; /* Ensure bullets are outside the content box */
+    /* Add this if you want to visually see if default padding is still there */
+    /* border: 1px solid red; */
+}
+
+/* Control individual list items for ultimate tightness */
+#post ul li,
+#post ol li {
+    margin: 0;          /* Ensure no margin on individual list items */
+    padding: 0;         /* Ensure no padding on individual list items */
+    line-height: 1.25em;   /* Exactly font-size height */
+    font-size: 13pt;    /* Your chosen font size */
+    vertical-align: top; /* Good for alignment */
+}
+
+/* Add a very specific rule to override browser's default padding-left if needed */
+/* This might be necessary if the 40px is still persisting visually despite the 1.35em */
+ul { /* Target ul more generally, or be specific if other ul's exist */
+    padding-left: 1.35em !important; /* Force override if necessary, but use sparingly */
+}
+
+#post .meta {
+    color: #aaa;
+    font-style: italic;
+    margin-top: -1em;
+    font-size: 0.9em;
+    margin-bottom: 0.8em;
+    margin-left:1.5em;
+}
+
+#post img {
+    max-width: 100%;
+    height: auto;
+    padding: 0.2em;
+    border: 1px solid #ddd;
+    display: block;
+    margin: 1em auto;
+}
+
+#post pre {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    overflow-x: auto;
+    font-size: 0.9em;
+    margin-top: 0; /* <--- ADD THIS LINE */
+}
+
+#post code {
+    border: 1px solid #ddd;
+    color: #000000;
+    background-color: #f8f8f8;
+    font-size: 85%;
+    padding: 0.1em 0.3em;
+    font-family: "courier new", monospace;
+}
+
+#post pre code {
+    border: none;
+    padding: 0;
+}
+
+/********************************************/
+/* Post Creation/Editing Forms /
+/********************************************/
+
+form label {
+    display: block; /* Makes the label take up its own line */
+    margin-bottom: 8px; /* Adds space below the label */
+    font-weight: bold;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea {
+    display: block;
+    width: 100%; /* Default width for all inputs/textareas in forms */
+    height: 75%;
+    padding: 10px 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding and border in width/height */
+    font-size: 1em;
+    line-height: 1.5;
+    outline: none;
+}
+
+form input[type="submit"] {
+    background-color: #f8843c;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+    display: block;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* --- Specific Styles for the Create Post Page Inputs --- */
+#create-post-form-container input[name="title"] {
+    font-size: 1.2em; /* Slightly larger font */
+    padding: 12px 15px; /* More padding */
+    width: 80%;
+    margin-bottom: 1em;
+}
+
+#create-post-form-container textarea[name="body"] {
+    min-height: 550px; /* Taller body textarea for creation */
+    max-height: 1200px; /* Limit max height for very long posts */
+    font-size: 1.1em;
+    padding: 12px 15px;
+    resize: vertical;
+}
+
+/*****************************************************************************/
+/*
+/* Lists (Index Page, Related Posts) (Keep as is)
+/*
+/*****************************************************************************/
+
+ul.posts {
+    list-style-type: none;
+    margin-bottom: 1.25em;
+}
+
+ul.posts li {
+    line-height: 1.25em;
+}
+
+ul.posts span {
+    color: #888;
+    font-family: monospace;
+    font-size: 0.9em;
+    padding-right: 1em;
+}
+
+#related {
+    margin-top: 3em;
+    clear: both; /* Keep clear: both if it's outside the main-content-area flex */
+    width: 100%; /* Ensure it spans full width */
+    /* float: left; -- Remove if .site is flex-column */
+}
+
+#related h2 {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    border-top: 4px solid #eee;
+    padding-top: 1em;
+}
+
+
+/*****************************************************************************/
+/*
+/* Footer (Keep as is)
+/*
+/*****************************************************************************/
+
+.site .footer {
+    font-size: 80%;
+    color: #555;
+    border-top: 4px solid #eee;
+    margin-top: 2em; /* Add some margin top to separate from content */
+    padding-top: 1.5em;
+    padding-bottom: 2em;
+    overflow: hidden;
+    clear: both;
+}
+
+.site .footer .contact {
+    float: left;
+    margin-right: 3em;
+}
+
+.site .footer .contact a {
+    color: #8085C1;
+}
+
+.site .footer .license {
+    margin-top: 1.1em;
+    float: right;
+    text-align: right;
+}
+
+.site .footer .license img {
+    border: 0;
+}
+
+
+/*****************************************************************************/
+/*
+/* Responsive Design (Simplified)
+/*
+/*****************************************************************************/
+
+@media only screen and (max-width: 900px) { /* You might want to adjust this breakpoint (e.g., to 768px for tablets) */
+    body {
+        margin-left: 0;
+        text-align: left;
+    }
+    .site {
+        width: 95%;
+        margin: 1em auto;
+        /* display: flex; flex-flow: column; is already on .site, but applies to main-content-area as well */
+    }
+    .main-content-area {
+        flex-direction: column; /* Stack content and sidebar vertically on mobile */
+    }
+    #post {
+        margin-right: 0; /* Remove margin when stacked */
+        flex-basis: auto; /* Allow it to take full width */
+    }
+    .site .about {
+        margin-top: 1em; /* Reduced from 2em to 1em to lessen space above it */
+        flex-basis: auto; /* Allow it to take full width */
+        margin-bottom: 0; /* Add this to remove any lingering bottom margin */
+        padding-bottom: 0; /* ADD THIS: Remove any bottom padding on the about section */
+    }
+    .site .footer .contact,
+    .site .footer .license {
+        float: none;
+        width: 100%;
+        text-align: left;
+        margin-bottom: 1em;
+    }
+
+    /* --- NEW ADDITION FOR MOBILE TITLE FIX --- */
+    .site .title a {
+        font-size: 1.5em; /* Reduce font size for smaller screens */
+        white-space: nowrap; /* Prevent text from wrapping if possible */
+        overflow: hidden; /* Hide overflow if nowrap causes issues (less ideal) */
+        text-overflow: ellipsis; /* Add ellipsis if text is cut off (less ideal) */
+    }
+
+    /* ADDED/ADJUSTED FOR REDUCING SPACE UNDER LINKS ON MOBILE */
+    .site .about h1 {
+        margin-top: 1em; /* Keep current heading top margin */
+        margin-bottom: 0.3em; /* Slightly reduce bottom margin for headings */
+        padding-bottom: 0.1em; /* Reduce padding below heading border */
+    }
+    .site .about p {
+        margin-top: 0.5em; /* Reduce top margin for paragraphs in 'about' */
+        margin-bottom: 0.5em; /* Reduce bottom margin for paragraphs in 'about' */
+    }
+    .site .about a {
+        margin-bottom: 0.3em; /* Reduce margin on individual links */
+        display: block; /* Make links block level to respect margins better */
+    }
+    .site .about br {
+        display: none; /* Hide the <br/> tags to remove their inherent vertical space */
+    }
+
+    /* Target the LAST element in the about section to remove its bottom margin/padding */
+    .site .about *:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    /* If the last child is an <a> tag and still has space */
+    .site .about a:last-of-type {
+        margin-bottom: 0;
+    }
+
+    /* Adjust the margin for the #related section when on mobile */
+    #related {
+        margin-top: 1.5em; /* Reduce the top margin of the related section */
+    }
+}

@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPosts, formatDate, isDraft, postUrl } from '../lib/posts';
+
+const posts = await getPosts();
+---
+
+<BaseLayout title="Kyle's Blog">
+  {posts.map((post, index) => <div class="post-preview">
+    <h2><a href={postUrl(post)}>{post.data.title}</a></h2>
+    <p class="meta">{formatDate(post.data.pubDate)}{isDraft(post) && ' · Draft'}</p>
+    <div class="preview-body">{post.data.description}</div>
+    <p><a href={postUrl(post)}>Read More &raquo;</a></p>
+    {index < posts.length - 1 && <hr class="post-separator" />}
+  </div>)}
+</BaseLayout>
