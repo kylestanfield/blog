@@ -1,23 +1,14 @@
 ---
-title: "3D Voxel Topography of Every Country on Earth"
+title: "3D Voxel Topography of Every Country"
 pubDate: "2026-11-25T09:20:00Z"
 author: "Kyle Stanfield"
-description: "Path-traced 3D voxel elevation maps for all 195 sovereign countries, built with Python, AWS Terrarium elevation tiles, and Blender Cycles."
+description: "3D topography maps for every country, inspired by @cstats1."
 draft: false
 ---
 
-Inspired by [`@cstats1`](https://x.com/cstats1)'s 3D voxel relief maps, I put together an automated Python + Blender Cycles pipeline to render a path-traced topographic map for every sovereign country on Earth—all 195 of them.
+I saw [@cstats1](https://x.com/cstats1)'s 3D topography map of the US and wanted to make one for every country. All 195 renders are below, click any of them to zoom in.
 
-### How it's built
-
-- **Boundaries & projection:** Each country's coastline and borders come from Natural Earth 10m vector data, projected into a per-country Lambert Azimuthal Equal Area projection centered on its circular mean longitude. That keeps high-latitude countries like Norway undistorted and handles antimeridian-crossing countries like Russia and Fiji cleanly.
-- **Elevation data:** Real terrain heights are sampled from AWS Terrarium DEM tiles at a dynamic zoom level (`z=5` for continental countries up to `z=12` for microstates like Monaco and Vatican City), downloading only the tiles touched by land voxels.
-- **3D rendering:** Each cell is extruded into a discrete square column with a hypsometric color ramp (slate blue lowlands through teal, olive, ochre, and coral-orange, with only the top ~1.5% of summits dusted in snow-white) and a matte white outer border skirt, then path-traced in Blender Cycles with OpenImageDenoise on an Apple M5 Metal GPU + hybrid CPU workers.
-- **Flat-country scaling:** Low-lying island nations like the Maldives automatically cap their vertical exaggeration and color ceiling so a 2-meter coral atoll doesn't turn into a fake snow-capped mountain range.
-
-### All 195 Countries
-
-Click any country to inspect it full-size (use `←` / `→` arrow keys or `Esc` in the viewer).
+The code and explanation are on [GitHub](https://github.com/kylestanfield/world-topography).
 
 <div class="topo-atlas" id="topo-atlas">
 <style>
