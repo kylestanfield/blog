@@ -44,17 +44,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <div class="title"><h1><a href="/">Kyle's Blog</a></h1></div>
       <div class="main-content-area">
         <main id="post"><slot /></main>
-        <aside class="about">
-          <h1>About</h1>
-          <p>Thoughts on networking, tech, and movies.</p>
-          <br />
-          <a rel="me" href="https://www.linkedin.com/in/kylejstanfield/">My LinkedIn</a><br />
-          <a rel="me" href="https://github.com/kylestanfield">My Github</a>
-        </aside>
       </div>
       <div id="related"><slot name="related" /></div>
       <footer class="footer">
-        <div class="contact"><p>Kyle Stanfield<br /></p><p><a href="/rss.xml">RSS</a></p></div>
+        <div class="contact">
+          <p>Kyle Stanfield</p>
+          <p>
+            <a rel="me" href="https://github.com/kylestanfield">GitHub</a>
+            &nbsp;&middot;&nbsp;<a rel="me" href="https://www.linkedin.com/in/kylejstanfield/">LinkedIn</a>
+            &nbsp;&middot;&nbsp;<a href="/rss.xml">RSS</a>
+          </p>
+        </div>
         <div class="license">
           This work is licensed under the <a href="https://opensource.org/licenses/MIT">MIT License</a>.
           &nbsp;&middot;&nbsp;<a href="/ryu/privacy-policy/">Ryu Privacy Policy</a>

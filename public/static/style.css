@@ -136,11 +136,9 @@ hr {
 
 
 #post {
-    /* width: 50em; -- Remove fixed em width here as flex-basis will control it */
-    /* float: left; -- Remove float as we're using flexbox */
-    flex: 1 1 65%; /* Allows post to grow/shrink, with a preferred width of 65% */
-    min-width: 300px; /* Ensure it doesn't get too small */
-    margin-right: 2em; /* Space between post and about */
+    flex: 1 1 100%;
+    min-width: 0;
+    margin-right: 0;
 }
 
 .site .about {
