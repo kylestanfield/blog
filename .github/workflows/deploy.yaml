@@ -39,13 +39,32 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Upload to S3
+      - name: Upload topography images (immutable 1-year cache)
         if: github.event_name == 'push'
-        run: aws s3 sync dist/ s3://kylestanfield.com --delete
+        run: >-
+          aws s3 sync dist/static/images/topography/ s3://kylestanfield.com/static/images/topography/
+          --delete
+          --cache-control "public, max-age=31536000, immutable"
 
-      - name: Invalidate CloudFront cache
+      - name: Upload other static assets (1-day browser, 7-day CDN cache)
+        if: github.event_name == 'push'
+        run: >-
+          aws s3 sync dist/static/ s3://kylestanfield.com/static/
+          --delete
+          --exclude "images/topography/*"
+          --cache-control "public, max-age=86400, s-maxage=604800"
+
+      - name: Upload HTML and feeds (5-min browser, 1-day CDN cache)
+        if: github.event_name == 'push'
+        run: >-
+          aws s3 sync dist/ s3://kylestanfield.com/
+          --delete
+          --exclude "static/*"
+          --cache-control "public, max-age=300, s-maxage=86400"
+
+      - name: Invalidate CloudFront HTML, RSS, and CSS (keep topography images warm)
         if: github.event_name == 'push'
         run: >-
           aws cloudfront create-invalidation
           --distribution-id EGOUXQV2ESRMJ
-          --paths "/*"
+          --paths "/" "/index.html" "/rss.xml" "/static/style.css" "/world-topography/*" "/1/*" "/2/*"
