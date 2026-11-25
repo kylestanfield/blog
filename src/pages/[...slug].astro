@@ -15,7 +15,7 @@ const { Content } = await render(post);
 const recent = (await getPosts()).slice(0, 5).filter((other) => other.id !== post.id);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description} draft={isDraft(post)}>
+<BaseLayout title={post.data.title} description={post.data.description} ogImage={post.data.ogImage} draft={isDraft(post)}>
   <h1>{post.data.title}</h1>
   <p class="meta">{formatDate(post.data.pubDate)}{isDraft(post) && ' · Draft (local preview only)'}</p>
   <div class="post-body"><Content /></div>

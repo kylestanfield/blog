@@ -3,6 +3,7 @@ title: "3D Voxel Topography of Every Country"
 pubDate: "2026-11-25T09:20:00Z"
 author: "Kyle Stanfield"
 description: "3D topography maps for every country, inspired by @cstats1."
+ogImage: "/static/images/topography-og.png"
 draft: false
 ---
 

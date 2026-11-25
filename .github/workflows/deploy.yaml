@@ -67,4 +67,4 @@ jobs:
         run: >-
           aws cloudfront create-invalidation
           --distribution-id EGOUXQV2ESRMJ
-          --paths "/" "/index.html" "/rss.xml" "/static/style.css" "/world-topography/*" "/1/*" "/2/*"
+          --paths "/" "/index.html" "/rss.xml" "/static/style.css" "/static/Blog.png" "/world-topography/*" "/1/*" "/2/*"

@@ -13,6 +13,7 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     author: z.string().default('Kyle Stanfield'),
     description: z.string().default(''),
+    ogImage: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });
